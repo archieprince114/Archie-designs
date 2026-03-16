@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>spotlight crew</title>
+  <style>
+
+
+body{
+font-family:Arial;
+margin:0;
+background:#0b00b;
+color:white;
+}
+.hero{
+text-align:center;
+padding:150px 20px;
+background-image:url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba");
+background-size:cover;
+background-position:center;
+}
+
+.hero h1{
+font-size:50px;
+color:white;
+text-shadow:0 0 10px black;
+}
+header{
+background:green;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-size:24px;
+font-weight:bold;
+color:gold;
+}
+
+nav a{
+color:white;
+margin:0 15px;
+text-decoration:none;
+font-weight:bold;
+cursor:pointer;
+}
+
+.hero{
+text-align:center;
+padding:120px 20px;
+background:linear-gradient(#000,#111);
+}
+
+.hero h1{
+font-size:45px;
+color:gold;
+}
+
+.hero button{
+padding:14px 30px;
+font-size:18px;
+background:gold;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+section{
+padding:60px 20px;
+text-align:center;
+}
+
+.form-box{
+background:#1a1a1a;
+padding:30px;
+width:350px;
+margin:auto;
+border-radius:10px;
+box-shadow:0 0 10px gold;
+}
+
+input,select,textarea{
+width:90%;
+padding:10px;
+margin:10px;
+border:none;
+border-radius:5px;
+}
+
+button{
+padding:12px 25px;
+background:gold;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+.success{
+display:none;
+color:lightgreen;
+}
+
+.dashboard{
+display:none;
+padding:40px;
+}
+
+.card{
+background:#1a1a1a;
+padding:15px;
+margin:10px;
+border-radius:8px;
+}
+
+footer{
+background:black;
+text-align:center;
+padding:20px;
+margin-top:40px;
+}
+
+</style>
+
+</head>
+
+<body>
+<section>
+
+<h2>TVET Chronicles</h2>
+
+<p>
+A campus comedy series produced by Spot Light Crew.
+Follow the funny and dramatic life of TVET students
+inside class, hostels and campus life.
+</p>
+
+<button>Watch Episodes (Coming Soon)</button>
+
+</section>
+<header>
+
+<div class="logo">💫 Spot Light Crew</div>
+
+<nav>
+<a onclick="showPage('home')">Home</a>
+<a onclick="showPage('about')">About</a>
+<a onclick="showPage('join')">Join</a>
+<a onclick="showPage('admin')">Admin</a>
+</nav>
+
+</header>
+
+<!-- HOME -->
+
+<div id="home">
+
+<div class="hero">
+
+<h1>Welcome To The Spot Light Crew</h1>
+
+<p>Actors • Directors • Creators</p>
+
+<button onclick="showPage('join')">Join The Crew</button>
+
+</div>
+
+</div>
+
+<!-- ABOUT -->
+
+<div id="about" style="display:none">
+
+<section>
+
+<h2>About Us</h2>
+
+<p>
+The Spot Light Crew is a creative media team producing campus
+films, comedy skits and the TVET Chronicles series.
+We bring together talented actors, writers, editors and
+directors to create amazing entertainment.
+</p>
+
+</section>
+
+</div>
+
+<!-- JOIN -->
+
+<div id="join" style="display:none">
+
+<section>
+
+<h2>Join The Spot Light Crew</h2>
+
+<div class="form-box">
+
+<input id="name" placeholder="Your Name">
+
+<select id="role">
+<option>Select Talent</option>
+<option>Actor</option>
+<option>Script Writer</option>
+<option>Camera Operator</option>
+<option>Video Editor</option>
+<option>Director</option>
+</select>
+
+<input id="experience" placeholder="Experience (optional)">
+
+<input id="video" placeholder="Audition Video Link (optional)">
+
+<textarea id="reason" placeholder="Why do you want to join?"></textarea>
+
+<input id="whatsapp" placeholder="WhatsApp Number">
+
+<button onclick="apply()">Submit Application</button>
+
+<p id="success" class="success">
+✅ Application submitted successfully!
+</p>
+
+</div>
+
+</section>
+
+</div>
+
+<!-- ADMIN DASHBOARD -->
+
+<div id="admin" class="dashboard">
+
+<h2>Applicants Dashboard</h2>
+
+<div id="applicantsList"></div>
+
+</div>
+
+<footer>
+
+<p>Spot Light Crew</p>
+
+<p>WhatsApp: 0113703782</p>
+
+<p>Email: Thespotlightcrew37@gmail.com</p>
+
+</footer>
+
+<script>
+
+function showPage(page){
+
+document.getElementById("home").style.display="none"
+document.getElementById("about").style.display="none"
+document.getElementById("join").style.display="none"
+document.getElementById("admin").style.display="none"
+
+document.getElementById(page).style.display="block"
+
+if(page==="admin"){
+loadApplicants()
+}
+
+}
+
+function apply(){
+
+let name=document.getElementById("name").value
+let role=document.getElementById("role").value
+let experience=document.getElementById("experience").value
+let video=document.getElementById("video").value
+let reason=document.getElementById("reason").value
+let whatsapp=document.getElementById("whatsapp").value
+
+if(name=="" || role=="Select Talent" || whatsapp==""){
+alert("Please fill required fields")
+return
+}
+
+let applicant={
+name,
+role,
+experience,
+video,
+reason,
+whatsapp
+}
+
+let applicants=JSON.parse(localStorage.getItem("spotlightApplicants")) || []
+
+applicants.push(applicant)
+
+localStorage.setItem("spotlightApplicants",JSON.stringify(applicants))
+
+document.getElementById("success").style.display="block"
+
+/* WhatsApp message */
+
+let message=
+"Spot Light Crew Application%0A"+
+"Name: "+name+"%0A"+
+"Role: "+role+"%0A"+
+"Experience: "+experience+"%0A"+
+"Reason: "+reason+"%0A"+
+"WhatsApp: "+whatsapp
+
+let url="https://wa.me/254113703782?text="+message
+
+window.open(url)
+
+}
+
+function loadApplicants(){
+
+let applicants=JSON.parse(localStorage.getItem("spotlightApplicants")) || []
+
+let output=""
+
+applicants.forEach(a =>{
+
+output+=`
+
+<div class="card">
+
+<h3>${a.name}</h3>
+
+<p><b>Role:</b> ${a.role}</p>
+
+<p><b>Experience:</b> ${a.experience}</p>
+
+<p><b>Reason:</b> ${a.reason}</p>
+
+<p><b>WhatsApp:</b> ${a.whatsapp}</p>
+
+<p><b>Video:</b> ${a.video}</p>
+
+</div>
+
+`
+
+})
+
+document.getElementById("applicantsList").innerHTML=output
+
+}
+
+</script>
+
+</body>
+</html>
